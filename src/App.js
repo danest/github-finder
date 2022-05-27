@@ -6,7 +6,6 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 
 function App() {
-  const github_token = "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"
   
   return (
     <Router>
