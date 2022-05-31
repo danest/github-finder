@@ -1,9 +1,12 @@
+import UserResults from "../components/users/UserResults"
+import UserSearch from "../components/users/UserSearch"
 
 function Home() {
 
   return (
-    <div className="">
-        <h1 className="text-6xl">Welcome</h1>
+    <div>
+        <UserSearch />
+        <UserResults />
     </div>
   )
 }
