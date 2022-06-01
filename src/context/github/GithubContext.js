@@ -12,6 +12,8 @@ export const GithubProvider = ({ children }) => {
 
   const initialState = {
     users: [],
+    repos: [],
+    user: {},
     loading: false
   }
 
@@ -39,6 +41,47 @@ export const GithubProvider = ({ children }) => {
 
   }
 
+  // get a single user
+  const getUser = async (login) => {
+    setLoading()
+
+    const response = await fetch(`https://api.github.com/users/${login}`)
+    console.log(response)
+    if(response.status === 404) {
+      window.location = '/notfound'
+    } else {
+      const data = await response.json()
+
+      // setUsers(data)
+      // setLoading(false)
+
+      dispatch({
+        type: "GET_USER",
+        payload: data
+      })
+    }
+
+  }
+
+
+  // get user repots
+  const getUserRepos = async (login) => {
+    setLoading()
+
+    const response = await fetch(`https://api.github.com/users/${login}/repos`)
+
+    const data = await response.json()
+
+    // setUsers(data)
+    // setLoading(false)
+
+    dispatch({
+      type: "GET_REPOS",
+      payload: data
+    })
+
+  }
+
   // clear users from state
   const clearUsers = () => {
     dispatch({
@@ -54,8 +97,12 @@ export const GithubProvider = ({ children }) => {
     <GithubContext.Provider value={{
       users: state.users,
       loading: state.loading,
+      user: state.user,
+      repos: state.repos,
       searchUsers,
-      clearUsers
+      clearUsers,
+      getUserRepos,
+      getUser
       }}>
       {children}
     </GithubContext.Provider>
